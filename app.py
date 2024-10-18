@@ -10,3 +10,6 @@ def test_hello_world():
 # Run the test (optional in local development; pytest will handle this in CI)
 if __name__ == "__main__":
     print(hello_world())
+
+
+# End-of-file (EOF)
