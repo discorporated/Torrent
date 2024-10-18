@@ -37,7 +37,6 @@ if __name__ == "__main__":
             TIMER -= 1
             print("\n")
             time.sleep(1)
-            
         print("Cleaning up and exiting...")
         time.sleep(1)
         clear_terminal()
