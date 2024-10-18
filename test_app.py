@@ -2,7 +2,7 @@
 Torrent: A simple Python program that simulates a terminal-based game
 where the player and AI move around a 10x10 checkerboard in a turn-based fashion.
 """
-
+from collections import namedtuple
 import sys
 import os
 import time
@@ -192,17 +192,19 @@ def test_move_ai():
 
 def test_check_terminal_size(monkeypatch):
     """Test check_terminal_size to handle different terminal sizes."""
+    # Create a mock terminal size class similar to os.terminal_size
+    MockTerminalSize = namedtuple('terminal_size', ['columns', 'lines'])
     # Mock a terminal size that is too small
     def mock_small_terminal():
-        return (20, 40)  # Too small
-    monkeypatch.setattr('os.get_terminal_size', mock_small_terminal)
-    assert not check_terminal_size()  # Fixed: checking for falsiness instead of `== False`
+        return MockTerminalSize(columns=40, lines=20)  # Too small
+    monkeypatch.setattr(os, 'get_terminal_size', mock_small_terminal)
+    assert not check_terminal_size()  # Check for falsiness
 
     # Mock a terminal size that is large enough
     def mock_large_terminal():
-        return (30, 80)  # Large enough
-    monkeypatch.setattr('os.get_terminal_size', mock_large_terminal)
-    assert check_terminal_size()  # Fixed: checking for truthiness instead of `== True`
+        return MockTerminalSize(columns=80, lines=30)  # Large enough
+    monkeypatch.setattr(os, 'get_terminal_size', mock_large_terminal)
+    assert check_terminal_size()  # Check for truthiness
 
 
 # Entry point for running the game or tests
